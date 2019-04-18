@@ -24,7 +24,7 @@ public class ConcentrationStart extends Application
    Font appFont = new Font("Helvetica",24);
    Label myLabel;
    Button [][] buttons;  
-   Label showing; 
+   Label resultLabel; 
    GridPane grid;
    
    public static void main(String[] args)

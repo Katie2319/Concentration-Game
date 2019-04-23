@@ -8,9 +8,7 @@ class MemoryGame implements Game{
   int boardSize;
   int turnCount;
   int[][] card1 = new int[boardSize][boardSize];
-  int clickedCard1;
   int[][] card2 = new int[boardSize][boardSize]; 
-  int clickedCard2;
   int[][] secretBoard = new int[boardSize][boardSize]; 
    
    //Default constructor

@@ -7,17 +7,21 @@ class MemoryGame implements Game{
   String gameStatus;
   int boardSize;
   int turnCount;
-  int[][] card1 = new int[2][2];
+  int[][] card1 = new int[boardSize][boardSize];
   int clickedCard1;
-  int[][] card2 = new int[2][2]; 
+  int[][] card2 = new int[boardSize][boardSize]; 
   int clickedCard2;
-  int[][] secretBoard = new int[2][2]; 
+  int[][] secretBoard = new int[boardSize][boardSize]; 
    
    //Default constructor
    public void setUp(){
       isWinner = false;
       boardSize = 2;
       turnCount = 0;
+      secretBoard[0][0] = 1;
+      secretBoard[0][1] = 1;
+      secretBoard[1][0] = 2;
+      secretBoard[1][1] = 2;
       }
       
    //Accessors

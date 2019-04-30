@@ -1,0 +1,21 @@
+
+.label {
+   -fx-text-alignment: center;
+   -fx-font-weight: bold;
+   -fx-font-size: 16pt;
+}
+
+
+
+.root{
+    -fx-font-size: 16pt;
+    -fx-font-family: "Book Antiqua";
+    -fx-base: #F5FFFA;
+    -fx-background: #B0E0E6;
+}
+
+.scene{
+    -fx-hpos: center;
+    -fx-vpos: center;
+
+}

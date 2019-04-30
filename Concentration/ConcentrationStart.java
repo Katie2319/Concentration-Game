@@ -83,9 +83,9 @@ public class ConcentrationStart extends Application
       for(int r=0;r<size;r++){ 
          for(int c = 0;c<size;c++){
             if((r+c)%2 ==0)
-               b[r][c] = makeButton(new Image("file:black.jpg"));
+               b[r][c] = makeButton(new Image("file:mark.jpg"));
             else
-               b[r][c] = makeButton(new Image("file:black.jpg"));
+               b[r][c] = makeButton(new Image("file:mark.jpg"));
          // add b to the grid
             grid.add(b[r][c],c, r);
          // Register the event handler.

@@ -1,0 +1,40 @@
+class ButtonClickHandler implements EventHandler<ActionEvent> {
+
+   @Override
+   
+   public void handle(ActionEvent event) {
+
+   Image oimage = new Image("file:o.png");
+ 
+   for(int r=0;r<2;r++){ 
+      for(int c = 0;c<2;c++){
+         if(event.getSource().equals(buttons[r][c])){ 
+            if(newTurnCount%2==0){
+               grid.add(images[r][c],c, r);
+               coorlist[0] = r;
+               coorlist[1] = c;
+               newTurnCount++;}
+            else {
+               grid.add(images[r][c],c, r);
+               coorlist[2] = r;
+               coorlist[3] = c;
+               newTurnCount++;} 
+               }}}
+    
+     if(newTurnCount%2==0){   
+        ImageView imageblack = new ImageView(new Image ("file:black.jpg"));
+        imageblack.setFitWidth(100); 
+        imageblack.setFitHeight(100);
+        
+        if(mg.isMatch(coorlist)){
+        resultLabel.setText("It was a match");
+        }
+        
+        else{      
+           buttons[coorlist[0]][coorlist[1]] = new Button(" ",imageblack);
+           buttons[coorlist[2]][coorlist[3]] = new Button(" ",imageblack);   
+        }
+  
+            
+            }}}}// class
+       

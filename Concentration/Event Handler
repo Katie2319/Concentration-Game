@@ -15,13 +15,8 @@ import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+
 import java.util.*; 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.event.MouseListener;
-import java.util.Timer; 
-import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
 
 public class ConcentrationStart extends Application
 {
@@ -30,17 +25,13 @@ public class ConcentrationStart extends Application
    Button [][] buttons;  
    Button [][] images;
    Label resultLabel; 
-   Label resultLabel2;
    GridPane grid;
    GridPane imagegrid;
    int [] coorlist = new int[4];
-   int xcoor1;
-   int xcoor2;
-   int ycoor1;
-   int ycoor2;
+   int numberoftries = 0;
+   int numberoftimeswon = 0;
    int newTurnCount = 0;
    MemoryGame mg = new MemoryGame();
-   boolean isAlreadyOneClick;
 
    public static void main(String[] args)
    {
@@ -49,26 +40,28 @@ public class ConcentrationStart extends Application
    }
    
    @Override
+   
    public void start(Stage stage)
    {  
       // Make new GridPane.
       grid = new GridPane( );
       grid.setAlignment(Pos.BASELINE_CENTER);
       int size = 2;
-      
       mg.setBoard(); 
 
       imagegrid = new GridPane( );
           
       buttons = makeAGrid(grid,size); 
-      images = makeAnImageGrid(imagegrid,size);
        
       myLabel = makeLabel("Welcome to Concentration. Match all the tiles."); 
-      resultLabel = new Label(" ");
 
+      resultLabel = new Label(" ");
+      
       VBox vbox = new VBox(myLabel, grid, resultLabel); 
 
-      Scene scene = new Scene(vbox,500,500);      
+      Scene scene = new Scene(vbox,500,500);   
+      
+      scene.getStylesheets().add("cssfile.css");   
 
       stage.setScene(scene);    
 
@@ -136,10 +129,13 @@ class ButtonClickHandler implements EventHandler<ActionEvent> {
    
    public void handle(ActionEvent event) {
    
+   images = makeAnImageGrid(imagegrid,2);
+   
    for(int r=0;r<2;r++){ 
       for(int c = 0;c<2;c++){
          if(event.getSource().equals(buttons[r][c])){ 
             if(newTurnCount%2==0){
+               grid.getChildren().remove(buttons[r][c]);
                grid.add(images[r][c],c, r);
                coorlist[0] = r;
                coorlist[1] = c;
@@ -158,10 +154,16 @@ class ButtonClickHandler implements EventHandler<ActionEvent> {
         boolean row = mg.isMatch(coorlist);
         
         if(row){
-         resultLabel.setText("Match.");}
+         numberoftimeswon = numberoftimeswon + 1;
+         numberoftries = numberoftries + 1;
+         resultLabel.setText("MATCH!" + "\n" + "You tried: " + numberoftries + " time(s).");
+         if(numberoftimeswon == 2){
+            resultLabel.setText("You won the game!");} 
+         }
         
         else if(!row){  
-           resultLabel.setText("Not a match. Click the buttons again to flip them over.");
+           numberoftries = numberoftries + 1;
+           resultLabel.setText("NOT A MATCH!" + "\n" + "Click the buttons again to flip them over." + "\n" + "You tried: " + numberoftries + " time(s).");
           
            buttons[coorlist[0]][coorlist[1]] = makeButton(new Image("file:mark.jpg"));
            grid.add(buttons[coorlist[0]][coorlist[1]],coorlist[1],coorlist[0]); 
@@ -171,9 +173,8 @@ class ButtonClickHandler implements EventHandler<ActionEvent> {
            buttons[coorlist[2]][coorlist[3]].setOnAction(new ButtonClickHandler());
            grid.add(buttons[coorlist[2]][coorlist[3]],coorlist[3],coorlist[2]);
            
-}}}}}
+}}
+
+}}}
 
 // class
-       
-
-        

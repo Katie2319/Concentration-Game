@@ -135,6 +135,7 @@ class ButtonClickHandler implements EventHandler<ActionEvent> {
       for(int c = 0;c<2;c++){
          if(event.getSource().equals(buttons[r][c])){ 
             if(newTurnCount%2==0){
+            //Added this
                grid.getChildren().remove(buttons[r][c]);
                grid.add(images[r][c],c, r);
                coorlist[0] = r;
@@ -154,6 +155,7 @@ class ButtonClickHandler implements EventHandler<ActionEvent> {
         boolean row = mg.isMatch(coorlist);
         
         if(row){
+        //Added this
          numberoftimeswon = numberoftimeswon + 1;
          numberoftries = numberoftries + 1;
          resultLabel.setText("MATCH!" + "\n" + "You tried: " + numberoftries + " time(s).");
@@ -162,6 +164,7 @@ class ButtonClickHandler implements EventHandler<ActionEvent> {
          }
         
         else if(!row){  
+        //Added this
            numberoftries = numberoftries + 1;
            resultLabel.setText("NOT A MATCH!" + "\n" + "Click the buttons again to flip them over." + "\n" + "You tried: " + numberoftries + " time(s).");
           

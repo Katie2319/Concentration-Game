@@ -1,0 +1,291 @@
+import javafx.application.Application;
+import javafx.stage.Stage;
+import javafx.scene.Scene;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.paint.Color; 
+import javafx.scene.layout.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.Button;
+import javafx.scene.text.Font;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.geometry.Pos;
+import javafx.event.EventHandler;
+import javafx.event.ActionEvent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+import java.util.*; 
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.StackPane;
+
+public class ConcentrationStartThree extends Application
+{
+   Font appFont = new Font("Helvetica",24);
+   Label myLabel;
+   Button [][] buttons;  
+   Button [][] images;
+   Label resultLabel; 
+   GridPane grid;
+   GridPane imagegrid;
+   int [] coorlist = new int[4];
+   int numberoftries = 0;
+   int numberoftimeswon = 0;
+   int newTurnCount = 0;
+   RadioButton smallButton;
+   RadioButton mediumButton;
+   RadioButton largeButton;
+   MemoryGame mg;
+   int size = 8;
+   Scene scene, scene2;
+   Stage stage;
+   VBox vbox;
+
+   public static void main(String[] args)
+   {
+      // Launch the application.
+      launch(args);
+   }
+   
+   @Override
+   
+   public void start(Stage stage)
+   {  
+      // Make new GridPane.
+      grid = new GridPane( );
+      grid.setAlignment(Pos.BASELINE_CENTER);
+      
+      MemoryGame mg = new MemoryGame();
+      
+      imagegrid = new GridPane( );
+       
+      myLabel = makeLabel("Welcome to Concentration. Match all the tiles."); 
+      
+      smallButton = new RadioButton("Small");
+      mediumButton = new RadioButton("Medium");
+      largeButton = new RadioButton("Large");
+      
+      smallButton.setSelected(true);
+      
+      ToggleGroup GridGroup = new ToggleGroup();
+      smallButton.setToggleGroup(GridGroup);
+      mediumButton.setToggleGroup(GridGroup);
+      largeButton.setToggleGroup(GridGroup);
+      
+      Button calcButton = new Button("Play");
+      calcButton.setOnAction(new SecondButtonClickHandler());
+      calcButton.setOnAction(e -> stage.setScene(scene2));  
+
+      resultLabel = new Label(" ");
+      
+      buttons = makeAGrid(grid,size); 
+      
+      vbox = new VBox(myLabel, grid, resultLabel);   
+      //vbox.getChildren().addAll(myLabel, grid);
+      VBox vbox2 = new VBox(myLabel, smallButton, mediumButton, largeButton, calcButton);
+
+      scene = new Scene(vbox2,400,400);  
+      scene2 = new Scene(vbox,500,500); 
+      
+      scene.getStylesheets().add("cssfile.css"); 
+      scene2.getStylesheets().add("cssfile.css");  
+
+      stage.setScene(scene);    
+
+      stage.setTitle("Concentration/Memory Match Game");
+
+      stage.show();
+   }
+   
+   Label makeLabel(String s){
+      Label label = new Label(s); 
+      label.setFont(appFont); 
+      return(label); 
+   }
+   
+   Button makeButton(Image img){
+       // create a button with an image on it
+      // Create an ImageView component to decorate Button
+      ImageView iView = new ImageView(img);
+      iView.setFitWidth(50); 
+      iView.setFitHeight(50);
+      
+      Button newButton =  new Button("",iView);
+      return(newButton); 
+   }
+
+   Button [][]  makeAGrid(GridPane grid, int size){
+   // square grid, size x size
+      Button [][] b = new Button[size][size];
+   
+      for(int r=0;r<size;r++){ 
+         for(int c = 0;c<size;c++){
+            if((r+c)%2 ==0)
+               b[r][c] = makeButton(new Image("file:mark.jpg"));
+            else
+               b[r][c] = makeButton(new Image("file:mark.jpg"));
+         // add b to the grid
+            grid.add(b[r][c],c, r);
+         // Register the event handler.
+           b[r][c].setOnAction(new ButtonClickHandler());
+         } 
+      }
+      return(b);}  
+      
+Button [][]  makeAnImageGrid(GridPane imagegrid, int size){
+   // square grid, size x size
+      Button [][] b = new Button[size][size];
+      
+      if(size == 2){
+      
+      for (int i=0; i<2; i++){
+         b[0][i] = makeButton(new Image("file:x.png"));
+         imagegrid.add(b[0][i],i, 0);}  
+         
+      for (int i=0; i<2; i++){
+         b[1][i] = makeButton(new Image("file:o.png"));
+         imagegrid.add(b[1][i],i, 1);} }  
+  
+      if(size == 4){
+      
+      for (int i=0; i<4; i++){
+         b[0][i] = makeButton(new Image("file:x.png"));
+         imagegrid.add(b[0][i],i, 0);}  
+         
+      for (int i=0; i<4; i++){
+         b[2][i] = makeButton(new Image("file:x.png"));
+         imagegrid.add(b[2][i],i, 2);}   
+               
+      for (int i=0; i<4; i++){
+         b[1][i] = makeButton(new Image("file:o.png"));
+         imagegrid.add(b[1][i],i, 1);}   
+      
+      for (int i=0; i<4; i++){
+         b[3][i] = makeButton(new Image("file:o.png"));
+         imagegrid.add(b[3][i],i, 3);}  } 
+          
+      if(size == 8){
+      
+      for (int i=0; i<8; i++){
+         b[0][i] = makeButton(new Image("file:x.png"));
+         imagegrid.add(b[0][i],i, 0);}  
+         
+      for (int i=0; i<8; i++){
+         b[2][i] = makeButton(new Image("file:x.png"));
+         imagegrid.add(b[2][i],i, 2);}   
+      
+      for (int i=0; i<8; i++){
+         b[4][i] = makeButton(new Image("file:x.png"));
+         imagegrid.add(b[4][i],i, 4);}      
+
+      for (int i=0; i<8; i++){
+         b[6][i] = makeButton(new Image("file:x.png"));
+         imagegrid.add(b[6][i],i, 6);}    
+         
+      for (int i=0; i<8; i++){
+         b[1][i] = makeButton(new Image("file:o.png"));
+         imagegrid.add(b[1][i],i, 1);}   
+      
+      for (int i=0; i<8; i++){
+         b[3][i] = makeButton(new Image("file:o.png"));
+         imagegrid.add(b[3][i],i, 3);}   
+      
+      for (int i=0; i<8; i++){
+         b[5][i] = makeButton(new Image("file:o.png"));
+         imagegrid.add(b[5][i],i, 5);}   
+         
+      for (int i=0; i<8; i++){
+         b[7][i] = makeButton(new Image("file:o.png"));
+         imagegrid.add(b[7][i],i, 7);}}  
+           
+      return(b);}
+  
+class ButtonClickHandler implements EventHandler<ActionEvent> {
+
+   @Override
+   
+   public void handle(ActionEvent event) {
+   
+   images = makeAnImageGrid(imagegrid,8);
+   
+   if(numberoftries < 32){
+   
+   for(int r=0;r<8;r++){ 
+      for(int c = 0;c<8;c++){
+         if(event.getSource().equals(buttons[r][c])){ 
+            if(newTurnCount%2==0){
+               grid.getChildren().remove(buttons[r][c]);
+               grid.add(images[r][c],c, r);
+               coorlist[0] = r;
+               coorlist[1] = c;
+               newTurnCount++;}
+            else {
+               grid.add(images[r][c],c, r);
+               coorlist[2] = r;
+               coorlist[3] = c;
+               newTurnCount++;} 
+               }}}
+            
+    
+     if(newTurnCount%2==0){   
+         
+        mg.takeTurn(coorlist); 
+        boolean row = mg.isMatch(coorlist);
+        
+        if(row){
+         numberoftimeswon = numberoftimeswon + 1;
+         numberoftries = numberoftries + 1;
+         resultLabel.setText("MATCH!" + "\n" + "You tried: " + numberoftries + " time(s).");
+         if(numberoftimeswon == 16){
+            resultLabel.setText("You won the game!");} 
+         }
+        
+        else if(!row){  
+           numberoftries = numberoftries + 1;
+           resultLabel.setText("NOT A MATCH!" + "\n" + "Click the buttons again to flip them over." + "\n" + "You tried: " + numberoftries + " time(s).");
+          
+           buttons[coorlist[0]][coorlist[1]] = makeButton(new Image("file:mark.jpg"));
+           grid.add(buttons[coorlist[0]][coorlist[1]],coorlist[1],coorlist[0]); 
+           buttons[coorlist[0]][coorlist[1]].setOnAction(new ButtonClickHandler());
+           
+           buttons[coorlist[2]][coorlist[3]] = makeButton(new Image("file:mark.jpg")); 
+           buttons[coorlist[2]][coorlist[3]].setOnAction(new ButtonClickHandler());
+           grid.add(buttons[coorlist[2]][coorlist[3]],coorlist[3],coorlist[2]);}
+           
+}}
+
+   else
+      resultLabel.setText("You tried more than 32 times. GAME OVER.");
+
+}}
+
+class SecondButtonClickHandler implements EventHandler<ActionEvent> {
+
+   @Override
+   
+   public void handle(ActionEvent event) {
+   
+   if(smallButton.isSelected()){
+      mg.setBoard2();
+      resultLabel.setText("small");    
+      size = 2;
+      }
+   else if(mediumButton.isSelected()){
+      mg.setBoard4();
+      resultLabel.setText("smm");
+      size = 4;
+      }
+   else if(largeButton.isSelected()){
+      mg.setBoard8();
+      resultLabel.setText("smla");
+      size = 8;
+      }
+
+}
+}}
+
+// class
+       
+
+        

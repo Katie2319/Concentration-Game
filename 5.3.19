@@ -181,7 +181,7 @@ public class ConcentrationStartThree extends Application
       // Make new GridPane.
       grid = new GridPane( );
       grid.setAlignment(Pos.BASELINE_CENTER);
-      int size = 4;
+      int size = mg.getBoardSize();
       mg.setBoard(); 
 
       imagegrid = new GridPane( );
